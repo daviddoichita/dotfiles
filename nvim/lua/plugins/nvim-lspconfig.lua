@@ -41,6 +41,9 @@ return {
 				"marksman",
 				"quick_lint_js",
 				"yamlls",
+				"ts_ls",
+				"volar",
+				"phpactor",
 			},
 		})
 
@@ -83,6 +86,15 @@ return {
 						-- Get the language server to recognize the `vim` global
 						globals = { "vim" },
 					},
+				},
+			},
+		})
+
+		lspconfig.volar.setup({
+			filetypes = { "vue" },
+			init_options = {
+				vue = {
+					hybridMode = false,
 				},
 			},
 		})
