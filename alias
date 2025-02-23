@@ -1,0 +1,2 @@
+alias zyp="sudo zypper"
+alias tmn='tmux new-window -c "$(pwd)"'
