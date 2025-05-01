@@ -1,0 +1,154 @@
+(defwindow powermenu
+    :monitor "DP-1"
+    :stacking "fg"
+    :exclusive false
+    :geometry (geometry
+        :width "25%"
+        :height "25%"
+        :anchor "center"
+    )
+    (powermenu_layout)
+)
+
+(defpoll time
+    :interval "5s"
+    :initial `date +'{"hour":"%H","min":"%M"}'`
+    `date +'{"hour":"%H","min":"%M"}'`
+)
+
+(defpoll volume
+    :interval "1s"
+    "pamixer --get-volume"
+)
+
+(defwidget _buttons [shutdown shutdown_icon reboot reboot_icon logout logout_icon]
+    (box
+        :class "btns-box"
+        :spacing 5
+        :vexpand true
+        :hexpand true
+        :valign "end"
+        :halign "end"
+        :space-evenly false
+        (button
+            :onclick shutdown shutdown_icon
+        )
+        (button
+            :onclick reboot reboot_icon
+        )
+        (button
+            :onclick logout logout_icon
+        )
+    )
+)
+
+(defwidget _metric [label value]
+    (box
+        :orientation "v"
+        :class "metric"
+        :space-evenly false
+        (scale
+            :flipped true
+            :orientation "v"
+            :min 0
+            :max 101
+            :value value
+        )
+        (box
+            :class "metric-label"
+            label
+        )
+    )
+)
+
+(defwidget _volume [label value onchange]
+    (box
+        :orientation "h"
+        :class "volume"
+        :space-evenly false
+        (box
+            :class "volume-label"
+            label
+        )
+        (scale
+            :min 0
+            :max 101
+            :active {onchange != ""}
+            :value value
+            :onchange onchange
+        )
+    )
+)
+
+(defwidget _metrics []
+    (box
+        :class "metrics-box"
+        :spacing 10
+        :vexpand true
+        :hexpand true
+        :valign "end"
+        :halign "end"
+        :space-evenly false
+        (_metric
+            :label "DISK"
+            :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+        )
+        (_metric
+            :label "RAM"
+            :value {EWW_RAM.used_mem_perc}
+        )
+        (_metric
+            :label "CPU"
+            :value {EWW_CPU.avg}
+        )
+        (_metric
+            :label "TEMP"
+            :value {round(EWW_TEMPS["K10TEMP_TCTL"], 0)}
+            ; :value 50
+        )
+    )
+)
+
+(defwidget powermenu_layout []
+    (box
+        :class "layout-box"
+        :space-evenly false
+        :orientation "vertical"
+        ; :style "background-image: url('/home/ddoichita/Pictures/bg2.png')"
+        (box
+            :valign "start"
+            :halign "center"
+            :space-evenly false
+            :spacing 25
+            (_metrics)
+        )
+        (box
+            :space-evenly false
+            :hexpand true
+            :vexpand true
+            (box
+                :spacing 15
+                :class "tm-box"
+                :space-evenly false
+                :valign "end"
+                :halign "start"
+                (label
+                    :text ""
+                )
+                (label
+                    :text "${time.hour}:${time.min}"
+                )
+                (_volume
+                    :label ""
+                    :value volume
+                    :onchange "pamixer --set-volume {}"
+                )
+                (systray
+                    :icon-size 16
+                )
+            )
+            (_buttons :shutdown "poweroff" :reboot "reboot" :logout "loginctl kill-session self" :shutdown_icon "󰤁" :reboot_icon "" :logout_icon "󰍃"
+            )
+        )
+    )
+)

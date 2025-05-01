@@ -1,0 +1,83 @@
+$surface-darkgrey: #20252b;
+$surface-fg: #949494;
+$surface-lightgrey: #3d464e;
+$surface-grey: #2b3238;
+$surface-red: #f87070;
+$yellow: #FEDF00;
+
+$button-font-size: 1.4em;
+
+* {
+  all: unset;
+}
+
+.layout-box {
+  font-family: 'Cousine Nerd Font Mono';
+  // background-repeat: no-repeat;
+  // background-size: contain;
+  padding: 4em;
+  border: 1px solid $yellow;
+  background-color: rgba($color: #121212, $alpha: 1);
+  color: rgba($surface-fg, 0.8);
+}
+
+.tm-box {
+  label {
+    font-size: $button-font-size;
+  }
+}
+
+.metrics-box {
+  font-size: 1em;
+
+  button {
+    padding: 0.2em;
+
+    &:hover {
+      transition: 200ms linear color;
+      color: $surface-lightgrey;
+    }
+  }
+}
+
+.metric scale trough highlight {
+  all: unset;
+  background-color: #D35D6E;
+  color: #000000;
+}
+
+.metric scale trough {
+  all: unset;
+  background-color: #1a1a1a;
+  min-height: 100px;
+  min-width: 20px;
+  margin-bottom: 5px;
+}
+
+.volume scale trough highlight {
+  all: unset;
+  background-color: #D35D6E;
+  color: #000000;
+}
+
+.volume scale trough {
+  all: unset;
+  background-color: #1a1a1a;
+  min-height: 10px;
+  min-width: 100px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.btns-box {
+  font-size: $button-font-size + 0.4;
+
+  button {
+    padding: 0.2em;
+
+    &:hover {
+      transition: 200ms linear color;
+      color: $surface-lightgrey;
+    }
+  }
+}
