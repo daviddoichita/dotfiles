@@ -1,0 +1,20 @@
+#!/bin/bash
+
+native_apps=$(dmenu_path)
+flatpak_apps=$(flatpak list --app --columns=application | sed 's/^/flatpak:/')
+
+combined_list=$(printf "%s\n%s\n" "$native_apps" "$flatpak_apps")
+
+selected=$(printf "%s\n" "$combined_list" | fzf --prompt="Launch app: ")
+
+[ -z "$selected" ] && exit
+
+case "$selected" in
+  flatpak:*)
+    app_id=${selected#flatpak:}
+    hyprctl dispatch exec "flatpak run $app_id"
+    ;;
+  *)
+    hyprctl dispatch exec "$selected"
+    ;;
+esac
