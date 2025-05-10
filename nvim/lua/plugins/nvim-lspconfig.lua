@@ -27,7 +27,7 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             -- Install these LSPs automatically
-            automatic_installation = true,
+            automatic_enable = true,
             ensure_installed = {
                 "bashls",
                 "cssls",
@@ -67,17 +67,17 @@ return {
         end
 
         -- Call setup on each LSP server
-        require("mason-lspconfig").setup_handlers({
-            function(server_name)
-                -- Don't call setup for JDTLS Java LSP because it will be setup from a separate config
-                if server_name ~= "jdtls" then
-                    lspconfig[server_name].setup({
-                        on_attach = lsp_attach,
-                        capabilities = lsp_capabilities,
-                    })
-                end
-            end,
-        })
+        -- require("mason-lspconfig").setup_handlers({
+        --     function(server_name)
+        --         -- Don't call setup for JDTLS Java LSP because it will be setup from a separate config
+        --         if server_name ~= "jdtls" then
+        --             lspconfig[server_name].setup({
+        --                 on_attach = lsp_attach,
+        --                 capabilities = lsp_capabilities,
+        --             })
+        --         end
+        --     end,
+        -- })
 
         -- Lua LSP settings
         lspconfig.lua_ls.setup({
